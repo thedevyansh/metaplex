@@ -1,0 +1,54 @@
+ERROR:
+BREAKING CHANGE: webpack < 5 used to include polyfills for node.js core modules by default. This is no longer the case. To get the old behavior, do the following:
+
+RESOLUTION:
+1) Add a new property fallback to your webpack.config.js file (located in /node_modules/react-scripts/config/webpack.config.js)):
+resolve: {
+    ...
+    fallback: {
+        "stream": require.resolve("stream-browserify"),
+        "crypto": require.resolve("crypto-browserify"),
+        "assert": require.resolve("assert/"),
+        "zlib": require.resolve("browserify-zlib"),
+        "path": require.resolve("path-browserify"),
+      },
+    ...
+}
+
+2) Install each of the above modules in your project:
+npm install stream-browserify crypto-browserify assert browserify-zlib path-browserify
+
+
+ERROR:
+Uncaught ReferenceError: Buffer is not defined
+
+RESOLUTION:
+1) Add the following line to fallback property in resolve in your webpack.config.js file:
+fallback: {
+    ...
+    "buffer": require.resolve("buffer/"),
+    ...
+}
+
+2) Add the following in plugins property inside module.exports:
+module.exports = function(...) {
+    ...
+    plugins: [
+        ...
+        new webpack.ProvidePlugin({
+          Buffer: ['buffer', 'Buffer'],
+        }),
+        new webpack.ProvidePlugin({
+          process: 'process/browser',
+      }),
+    ]
+    ...
+}
+
+3) Install each of the above modules in your project:
+npm install buffer process
+
+4) Add the following on top of the JS file that requires it:
+import { Buffer } from 'buffer';
+window.Buffer = Buffer;
+
