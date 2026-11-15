@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
-    "@metaplex-foundation/js": "^0.13.1",
+    "@metaplex-foundation/js": "^0.20.0",
     "@metaplex-foundation/mpl-token-metadata": "^2.2.2",
     "@solana/spl-token": "^0.2.0",
     "@solana/web3.js": "^1.50.1",
